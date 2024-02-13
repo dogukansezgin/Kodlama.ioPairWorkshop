@@ -11,9 +11,9 @@ namespace Kodlama.io.Business.Abstracts;
 
 public interface ITeacherService
 {
-    public void Add(CreateTeacherRequest teacher);
+    public void Add(CreateTeacherRequest createTeacherRequest);
     public void Remove(RemoveTeacherRequest removeTeacherRequest);
-    public void Update(int teacherId, UpdateTeacherRequest newTeacher);
+    public void Update(UpdateTeacherRequest updateTeacherRequest);
     public List<GetAllTeacherResponse> GetAll();
     public GetByIdTeacherResponse GetById(int id);
 }

@@ -20,12 +20,11 @@ public class TeacherManager : ITeacherService
         _teacherDal = teacherDal;
     }
 
-    public void Add(CreateTeacherRequest teacher)
+    public void Add(CreateTeacherRequest createTeacherRequest)
     {
         Teacher teacherToCreate = new Teacher();
-        teacherToCreate.Id = teacher.Id;
-        teacherToCreate.Name = teacher.Name;
-        teacherToCreate.PictureUrl = teacher.PictureUrl;
+        teacherToCreate.Name = createTeacherRequest.Name;
+        teacherToCreate.PictureUrl = createTeacherRequest.PictureUrl;
 
         _teacherDal.Add(teacherToCreate);
     }
@@ -64,8 +63,20 @@ public class TeacherManager : ITeacherService
         _teacherDal.Remove(Id);
     }
 
-    public void Update(int teacherId, UpdateTeacherRequest updateTeacherRequest)
+    public void Update(UpdateTeacherRequest updateTeacherRequest)
     {
-        throw new NotImplementedException();
+        Teacher teacher = new Teacher();
+        teacher.Id = updateTeacherRequest.Id != teacher.Id ? updateTeacherRequest.Id : -1;
+        Teacher existingTeacher = _teacherDal.GetById(updateTeacherRequest.Id);
+
+        if (teacher.Id <= 0 || existingTeacher == null)
+        {
+            return;
+        }
+
+        teacher.Name = updateTeacherRequest.Name != null ? updateTeacherRequest.Name : teacher.Name;
+        teacher.PictureUrl = updateTeacherRequest.PictureUrl != null ? updateTeacherRequest.PictureUrl : teacher.PictureUrl;
+
+        _teacherDal.Update(teacher);
     }
 }

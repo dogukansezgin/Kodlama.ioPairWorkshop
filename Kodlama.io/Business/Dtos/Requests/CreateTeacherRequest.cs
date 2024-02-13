@@ -8,7 +8,6 @@ namespace Kodlama.io.Business.Dtos.Requests;
 
 public class CreateTeacherRequest
 {
-    public int Id { get; set; }
     public string Name { get; set; }
     public string PictureUrl { get; set; }
 }

@@ -11,7 +11,7 @@ public interface ICourseDal
 {
     public void Add(Course course);
     public void Remove(int Id);
-    public void Update(Course oldCourse, Course newCourse);
+    public void Update(Course course);
     public List<Course> GetAll();
     public Course GetById(int Id);
 }

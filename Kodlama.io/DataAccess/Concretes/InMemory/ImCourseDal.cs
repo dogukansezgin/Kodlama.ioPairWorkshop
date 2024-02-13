@@ -1,4 +1,5 @@
-﻿using Kodlama.io.DataAccess.Abstracts;
+﻿using Kodlama.io.Business.Dtos.Requests;
+using Kodlama.io.DataAccess.Abstracts;
 using Kodlama.io.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Kodlama.io.DataAccess.Concretes.InMemory;
 public class ImCourseDal : ICourseDal
 {
     List<Course> courses = new List<Course>();
+    int nextId;
     public ImCourseDal()
     {
         courses.Add(new Course {Id = 1, Name="C#", Price=0 });
@@ -20,6 +22,8 @@ public class ImCourseDal : ICourseDal
 
     public void Add(Course course)
     {
+        nextId = courses.Count > 0 ? courses.Max(c => c.Id) + 1 : 1;
+        course.Id = nextId;
         courses.Add(course);
     }
 
@@ -28,25 +32,31 @@ public class ImCourseDal : ICourseDal
         return courses;
     }
 
-    public Course GetById(int id)
+    public Course GetById(int Id)
     {
-        return courses.First(course => course.Id == id);
+        return courses.FirstOrDefault(course => course.Id == Id);
     }
 
     public void Remove(int Id)
     {
-        Course course = courses.FirstOrDefault(c => c.Id == Id);
+        Course course = courses.FirstOrDefault(course => course.Id == Id);
         courses.Remove(course);
     }
 
-    public void Update(Course oldCourse, Course newCourse)
+    public void Update(Course course)
     {
-        Course courseToUpdate = courses.FirstOrDefault(c => c.Id == oldCourse.Id);
+        Course courseToUpdate = courses.FirstOrDefault(item => item.Id == course.Id);
 
         if (courseToUpdate != null)
         {
-            courses[courseToUpdate.Id] = newCourse;
-            courses[courseToUpdate.Id].Id = courseToUpdate.Id;
+            courseToUpdate.Id = course.Id;
+            courseToUpdate.Name = course.Name;
+            courseToUpdate.Description = course.Description;
+            courseToUpdate.PictureUrl = course.PictureUrl;
+            courseToUpdate.Price = course.Price;
+            courseToUpdate.DiscountRate = course.DiscountRate;
+
+            courses[courses.IndexOf(courseToUpdate)] = courseToUpdate;
         }
     }
 }

@@ -11,7 +11,7 @@ public interface ICategoryDal
 {
     public void Add(Category category);
     public void Remove(int Id);
-    public void Update(Category oldCategory, Category newCategory);
+    public void Update(Category category);
     public List<Category> GetAll();
     public Category GetById(int Id);
 }

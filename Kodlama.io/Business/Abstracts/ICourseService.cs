@@ -11,9 +11,9 @@ namespace Kodlama.io.Business.Abstracts;
 
 public interface ICourseService
 {
-    public void Add(CreateCourseRequest course);
-    public void Delete(RemoveCourseRequest course);
-    public void Update(int courseId, UpdateCourseRequest newCourse);
+    public void Add(CreateCourseRequest createCourseRequest);
+    public void Delete(RemoveCourseRequest removeCourseRequest);
+    public void Update(UpdateCourseRequest updateCourseRequest);
     public List<GetAllCourseResponse> GetAll();
     public GetByIdCourseResponse GetById(int id);
 }

@@ -11,9 +11,9 @@ namespace Kodlama.io.Business.Abstracts;
 
 public interface ICategoryService
 {
-    public void Add(CreateCategoryRequest category);
+    public void Add(CreateCategoryRequest createCategoryRequest);
     public void Remove(RemoveCategoryRequest removeCategoryRequest);
-    public void Update(int categoryId, UpdateCategoryRequest newCategory);
+    public void Update(UpdateCategoryRequest updateCategoryRequest);
     public List<GetAllCategoryResponse> GetAll();
     public GetByIdCategoryResponse GetById(int id);
 }

@@ -11,6 +11,7 @@ namespace Kodlama.io.DataAccess.Concretes.InMemory;
 public class ImCategoryDal : ICategoryDal
 {
     List<Category> categories = new List<Category>();
+    int nextId;
     public ImCategoryDal()
     {
         categories.Add(new Category {Id= 1,Name= "Programlama"} );
@@ -20,6 +21,8 @@ public class ImCategoryDal : ICategoryDal
 
     public void Add(Category category)
     {
+        nextId = categories.Count > 0 ? categories.Max(t => t.Id) + 1 : 1;
+        category.Id = nextId;
         categories.Add(category);
     }
 
@@ -28,25 +31,27 @@ public class ImCategoryDal : ICategoryDal
         return categories;
     }
 
-    public Category GetById(int id)
+    public Category GetById(int Id)
     {
-        return categories.First(category => category.Id == id);
+        return categories.FirstOrDefault(category => category.Id == Id);
     }
 
     public void Remove(int Id)
     {
-        Category category = categories.FirstOrDefault(c => c.Id == Id);
+        Category category = categories.FirstOrDefault(category => category.Id == Id);
         categories.Remove(category);
     }
 
-    public void Update(Category oldCategory, Category newCategory)
+    public void Update(Category category)
     {
-        Category categoryToUpdate = categories.FirstOrDefault(c => c.Id == oldCategory.Id);
+        Category categoryToUpdate = categories.FirstOrDefault(item => item.Id == category.Id);
 
         if (categoryToUpdate != null)
         {
-            categories[categoryToUpdate.Id] = newCategory;
-            categories[categoryToUpdate.Id].Id = categoryToUpdate.Id;
+            categoryToUpdate.Id = category.Id;
+            categoryToUpdate.Name = category.Name;
+
+            categories[categories.IndexOf(categoryToUpdate)] = categoryToUpdate;
         }
     }   
 }

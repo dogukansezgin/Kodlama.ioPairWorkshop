@@ -23,7 +23,6 @@ public class CategoryManager : ICategoryService
     public void Add(CreateCategoryRequest category)
     {
         Category categoryToCreate = new Category();
-        categoryToCreate.Id = category.Id;
         categoryToCreate.Name = category.Name;
 
         _categoryDal.Add(categoryToCreate);
@@ -52,6 +51,14 @@ public class CategoryManager : ICategoryService
         getByIdCategoryResponse.Id = category.Id;
         getByIdCategoryResponse.Name = category.Name;
 
+        if (category == null)
+        {
+            return null;
+        }
+
+        getByIdCategoryResponse.Id = category.Id;
+        getByIdCategoryResponse.Name = category.Name;
+
         return getByIdCategoryResponse;
     }
 
@@ -61,8 +68,19 @@ public class CategoryManager : ICategoryService
         _categoryDal.Remove(Id);
     }
 
-    public void Update(int categoryId, UpdateCategoryRequest updateCategoryRequest)
+    public void Update(UpdateCategoryRequest updateCategoryRequest)
     {
-        throw new NotImplementedException();
+        Category category = new Category();
+        category.Id = updateCategoryRequest.Id != category.Id ? updateCategoryRequest.Id : -1;
+        Category existingCategory = _categoryDal.GetById(updateCategoryRequest.Id);
+
+        if (category.Id <= 0 || existingCategory == null)
+        {
+            return;
+        }
+
+        category.Name = updateCategoryRequest.Name != null ? updateCategoryRequest.Name : category.Name;
+
+        _categoryDal.Update(category);
     }
 }
